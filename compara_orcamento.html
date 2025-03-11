@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Orçamentos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .orcamento-list {
+            margin-top: 20px;
+        }
+
+        .orcamento-item {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Buscar Orçamentos</h1>
+        <button id="buscar-orcamentos">Buscar Orçamentos</button>
+
+        <div id="orcamentos-list" class="orcamento-list">
+            <!-- Os orçamentos serão carregados aqui -->
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+<script>
+    // Função para carregar um orçamento específico
+    function carregarOrcamento(id) {
+        fetch(`php/carregar_orcamento.php?id=${id}`)
+            .then(response => response.json())
+            .then(data => {
+                orcamentoAtual = data;
+                nomeOrcamentoSpan.textContent = orcamentoAtual.descricao;
+                nomeOrcamentoSpan.style.color = '#007bff'; // Destaque para o orçamento carregado
+                atualizarListaItens();
+                verificarExclusaoOrcamento();  // Verifica se o orçamento pode ser excluído
+            });
+    }
+
+    // Função para carregar um orçamento específico
+    function carregarOrcamento(id) {
+        fetch(`php/carregar_orcamento.php?id=${id}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao carregar orçamento');
+                }
+                return response.json();
+            })
+            .then(data => {
+                orcamentoAtual = data;
+                nomeOrcamentoSpan.textContent = orcamentoAtual.descricao;
+                nomeOrcamentoSpan.style.color = '#007bff'; // Destaque para o orçamento carregado
+                atualizarListaItens();
+                verificarExclusaoOrcamento();  // Verifica se o orçamento pode ser excluído
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                // Opcional: atualizar a UI para mostrar uma mensagem de erro ao usuário
+                alert('Erro ao carregar orçamento. Por favor, tente novamente.');
+            });
+    }
+
+</script>
+
+
+</html>
